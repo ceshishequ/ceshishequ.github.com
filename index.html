@@ -3,58 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>永久发布页 - 防失联</title>
+    <title>项目发布页 | 官方导航</title>
+    <!-- 引入 Tailwind CSS 快速美化 -->
+    <script src="https://tailwindcss.com"></script>
     <style>
-        body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .card { background: white; width: 100%; max-width: 400px; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
-        h1 { color: #333; font-size: 24px; }
-        .notice { color: red; font-size: 14px; margin-bottom: 20px; font-weight: bold; }
-        
-        /* 按钮样式 */
-        .btn { display: block; background: #007bff; color: white; text-decoration: none; padding: 12px; margin: 10px 0; border-radius: 8px; font-weight: bold; transition: 0.3s; }
-        .btn:hover { background: #0056b3; }
-        .btn-mail { background: #28a745; cursor: pointer; }
-        
-        .info-box { background: #eee; padding: 10px; border-radius: 5px; font-family: monospace; word-break: break-all; margin-top: 20px; font-size: 14px; }
-        .footer { margin-top: 20px; font-size: 12px; color: #888; }
+        body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex items-center justify-center text-white px-4">
 
-<div class="card">
-    <h1>官方永久发布页</h1>
-    <p class="notice">建议截图保存本页，防止失联</p>
+    <div class="max-w-md w-full glass p-8 rounded-3xl shadow-2xl">
+        <!-- 头部 LOGO/标题 -->
+        <div class="text-center mb-8">
+            <div class="inline-block p-3 bg-blue-600 rounded-2xl mb-4 shadow-lg shadow-blue-500/30">
+                <svg xmlns="http://w3.org" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold tracking-tight">项目官方发布页</h1>
+            <p class="text-gray-400 text-sm mt-2 font-mono uppercase tracking-widest">Official Release</p>
+        </div>
 
-    <!-- 请将下面的网址换成你的实际项目地址 -->
-    <a href="https://github.com" class="btn" target="_blank">官方开源仓库</a>
-    <a href="https://t.me" class="btn" target="_blank">Telegram 频道</a>
-    
-    <!-- 邮箱点击自动复制 -->
-    <div class="btn btn-mail" onclick="copyMail()">点击复制联系邮箱</div>
+        <!-- 核心信息卡片 -->
+        <div class="space-y-4 mb-8">
+            <!-- 官方域名 -->
+            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-all">
+                <div class="flex items-center">
+                    <span class="text-blue-400 mr-3">🌐</span>
+                    <span class="text-sm text-gray-300">官方域名</span>
+                </div>
+                <a href="https://yourdomain.com" target="_blank" class="text-blue-400 font-medium hover:underline">
+                    ://yourdomain.com
+                </a>
+            </div>
 
-    <div class="info-box">
-        当前访问地址：<br>
-        <span id="url-text">获取中...</span>
+            <!-- 联系邮箱 -->
+            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-all">
+                <div class="flex items-center">
+                    <span class="text-purple-400 mr-3">📧</span>
+                    <span class="text-sm text-gray-300">技术支持</span>
+                </div>
+                <a href="mailto:support@yourdomain.com" class="text-purple-400 font-medium hover:underline">
+                    support@yourdomain.com
+                </a>
+            </div>
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="grid grid-cols-1 gap-3">
+            <a href="https://github.com" 
+               class="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-xl font-bold text-center transition-all shadow-lg shadow-blue-900/20">
+                🚀 获取最新版本 (Github)
+            </a>
+            
+            <a href="https://github.com" 
+               class="w-full py-4 bg-white/10 hover:bg-white/20 rounded-xl font-medium text-center transition-all border border-white/10">
+                查看源码开源仓库
+            </a>
+        </div>
+
+        <!-- 底部 -->
+        <div class="mt-8 text-center">
+            <p class="text-xs text-gray-500">
+                &copy; 2024 <span class="text-gray-400 font-semibold">YourProject</span>. All Rights Reserved.
+            </p>
+            <div class="mt-2 flex justify-center space-x-2">
+                <span class="px-2 py-0.5 bg-green-500/20 text-green-500 text-[10px] rounded uppercase font-bold">Status: Online</span>
+                <span class="px-2 py-0.5 bg-gray-500/20 text-gray-400 text-[10px] rounded uppercase font-bold">v1.2.4</span>
+            </div>
+        </div>
     </div>
-
-    <div class="footer">
-        © <span id="year"></span> 官方发布页
-    </div>
-</div>
-
-<script>
-    // 自动显示当前网址
-    document.getElementById('url-text').innerText = window.location.href;
-    document.getElementById('year').innerText = new Date().getFullYear();
-
-    // 复制邮箱功能
-    function copyMail() {
-        const mail = "admin@example.com"; // 这里改成你的真实邮箱
-        navigator.clipboard.writeText(mail).then(() => {
-            alert("邮箱已复制: " + mail);
-        });
-    }
-</script>
 
 </body>
 </html>
