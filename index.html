@@ -3,224 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CDN 节点控制中心 | 全球加速发布</title>
+    <title>CDN 全球分发控制台</title>
     <style>
         :root {
             --primary: #00e5ff;
-            --bg-dark: #020617;
-            --glass: rgba(15, 23, 42, 0.8);
+            --bg-dark: #010409;
+            --font-mono: 'Consolas', 'Monaco', 'Courier New', monospace;
         }
 
-        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
         
         body {
             margin: 0;
             padding: 0;
             background: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at center, rgba(0, 229, 255, 0.05) 0%, transparent 70%),
-                url('https://unsplash.com'); /* 背景图：服务器集群/电路感 */
-            background-size: cover;
-            background-position: center;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Consolas', 'Monaco', monospace;
+            font-family: var(--font-mono);
             overflow: hidden;
             color: #fff;
         }
 
-        /* 背景网格装饰 */
-        body::after {
+        /* 1. 背景科技层：网格与粒子感 */
+        body::before {
             content: "";
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(0, 229, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 229, 255, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
-            z-index: 0;
+            width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.1) 0%, transparent 80%),
+                linear-gradient(rgba(0, 229, 255, 0.05) 1px, transparent 1px) 0 0 / 40px 40px,
+                linear-gradient(90deg, rgba(0, 229, 255, 0.05) 1px, transparent 1px) 0 0 / 40px 40px;
+            z-index: -1;
         }
 
-        .cdn-panel {
+        /* 2. 四角装饰元素 */
+        .corner { position: fixed; width: 100px; height: 100px; border: 1px solid rgba(0, 229, 255, 0.3); opacity: 0.6; pointer-events: none; }
+        .top-left { top: 20px; left: 20px; border-right: none; border-bottom: none; }
+        .top-right { top: 20px; right: 20px; border-left: none; border-bottom: none; }
+        .bottom-left { bottom: 20px; left: 20px; border-right: none; border-top: none; }
+        .bottom-right { bottom: 20px; right: 20px; border-left: none; border-top: none; }
+
+        /* 3. 两侧纵向数据流装饰 */
+        .side-bar {
+            position: fixed; top: 50%; transform: translateY(-50%);
+            font-size: 10px; color: rgba(0, 229, 255, 0.2);
+            text-transform: uppercase; letter-spacing: 4px;
+            writing-mode: vertical-rl;
+        }
+        .left-bar { left: 40px; }
+        .right-bar { right: 40px; transform: translateY(-50%) rotate(180deg); }
+
+        /* 核心卡片容器 */
+        .main-container {
             position: relative;
-            z-index: 1;
-            width: 90%;
-            max-width: 480px;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 229, 255, 0.3);
-            border-radius: 4px;
-            padding: 30px;
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(0, 229, 255, 0.1);
-        }
-
-        /* 顶部装饰条 */
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            border-bottom: 1px solid rgba(0, 229, 255, 0.2);
-            padding-bottom: 15px;
-        }
-
-        .dot-group { display: flex; gap: 5px; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); opacity: 0.5; }
-        .dot.active { opacity: 1; box-shadow: 0 0 10px var(--primary); animation: breathe 2s infinite; }
-
-        @keyframes breathe { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-
-        h1 { font-size: 20px; margin: 0; letter-spacing: 2px; color: var(--primary); text-shadow: 0 0 8px rgba(0,229,255,0.5); }
-
-        /* 核心跳转 */
-        .main-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 18px;
-            background: transparent;
+            z-index: 10;
+            width: 95%;
+            max-width: 520px;
+            background: rgba(13, 17, 23, 0.9);
             border: 1px solid var(--primary);
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 25px;
-            overflow: hidden;
-            position: relative;
+            padding: 40px;
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.15);
+            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
         }
 
-        .main-btn:hover {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 30px var(--primary);
+        /* 头部状态 */
+        .header { border-bottom: 1px solid rgba(0, 229, 255, 0.2); margin-bottom: 30px; padding-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end; }
+        h1 { margin: 0; font-size: 22px; color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+        .pulse { width: 10px; height: 10px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 10px #00ff88; animation: blink 1.5s infinite; }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        /* 跳转大按钮 */
+        .btn-connect {
+            display: block; width: 100%; padding: 20px; margin-bottom: 30px;
+            background: var(--primary); color: #000;
+            text-decoration: none; text-align: center; font-weight: 900; font-size: 18px;
+            clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
         }
+        .btn-connect:hover { background: #fff; box-shadow: 0 0 20px #fff; transform: skewX(-2deg); }
 
-        /* CDN 节点数据展示 */
-        .node-stats {
-            display: grid;
-            grid-template-cols: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 25px;
+        /* 信息展示块 */
+        .info-group { margin-bottom: 20px; }
+        .info-title { font-size: 11px; color: #57606a; margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .info-content { 
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); 
+            padding: 15px; display: flex; justify-content: space-between; align-items: center;
         }
+        .text-val { color: #e6edf3; font-size: 14px; }
+        .btn-copy { color: var(--primary); cursor: pointer; font-size: 12px; font-weight: bold; border: 1px solid var(--primary); padding: 2px 8px; }
+        .btn-copy:hover { background: var(--primary); color: #000; }
 
-        .stat-card {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 4px;
-        }
+        /* 底部系统信息占位 */
+        .footer-metrics { display: grid; grid-template-cols: repeat(3, 1fr); gap: 10px; margin-top: 30px; font-size: 10px; color: #57606a; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; }
 
-        .stat-label { font-size: 9px; color: #64748b; margin-bottom: 4px; display: block; }
-        .stat-value { font-size: 12px; color: #00ffa3; }
-
-        /* 备用信息区域 */
-        .info-row {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 12px 15px;
-            margin-bottom: 12px;
-            border: 1px dashed rgba(0, 229, 255, 0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .info-label { font-size: 10px; color: #94a3b8; }
-        .info-content { font-size: 13px; color: #fff; }
-
-        .copy-link {
-            color: var(--primary);
-            font-size: 11px;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
-        .copy-link:hover { color: #fff; }
-
-        /* 复制反馈提示 */
-        #toast {
-            position: fixed;
-            top: 20px;
-            background: var(--primary);
-            color: #000;
-            padding: 8px 20px;
-            font-size: 12px;
-            font-weight: bold;
-            border-radius: 2px;
-            display: none;
-            z-index: 100;
-        }
+        #toast { position: fixed; top: 30px; background: #00ff88; color: #000; padding: 10px 30px; font-weight: bold; display: none; z-index: 100; }
     </style>
 </head>
 <body>
 
-    <div id="toast">SYSTEM: DATA_COPIED_TO_CLIPBOARD</div>
+    <!-- 复制提示 -->
+    <div id="toast">复制成功 // SUCCESS</div>
 
-    <div class="cdn-panel">
-        <div class="panel-header">
-            <div class="dot-group">
-                <div class="dot active"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+    <!-- 侧边装饰文本 -->
+    <div class="side-bar left-bar">Traffic Routing Node: Global-Edge-01</div>
+    <div class="side-bar right-bar">Encrypted CDN Protocol v2.4.0</div>
+
+    <!-- 四角装饰 -->
+    <div class="corner top-left"></div>
+    <div class="corner top-right"></div>
+    <div class="corner bottom-left"></div>
+    <div class="corner bottom-right"></div>
+
+    <div class="main-container">
+        <div class="header">
+            <div>
+                <h1 id="title">CDN CONTROL CENTER</h1>
+                <small style="color: #57606a;">SYSTEM STATUS: ENCRYPTED</small>
             </div>
-            <h1>CDN ACCESS TERMINAL</h1>
+            <div class="pulse"></div>
         </div>
 
-        <!-- 1. 主进入按钮 -->
-        <a href="https://your-cdn-portal.com" target="_blank" class="main-btn">
-            [ 建立全球边缘连接 ]
+        <a href="https://your-site.com" target="_blank" class="btn-connect">
+            ESTABLISH CONNECTION / 进入
         </a>
 
-        <!-- 2. 模拟 CDN 数据面板 -->
-        <div class="node-stats">
-            <div class="stat-card">
-                <span class="stat-label">全球活跃节点</span>
-                <span class="stat-value">1,248 Nodes</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">当前最优节点</span>
-                <span class="stat-value">HKG-Cluster-04</span>
+        <div class="info-group">
+            <div class="info-title"><span>MIRROR ADDRESS / 备用节点</span> <span id="ping" style="color:#00ff88">LATENCY: 24ms</span></div>
+            <div class="info-content">
+                <span class="text-val" id="url">cloud.bak-node.io</span>
+                <span class="btn-copy" onclick="copy('url')">COPY</span>
             </div>
         </div>
 
-        <!-- 3. 备用地址与复制 -->
-        <div>
-            <span style="font-size: 10px; color: #475569; margin-bottom: 8px; display: block;">BACKUP EDGE / 备用分发节点</span>
-            <div class="info-row">
-                <span class="info-content" id="url">mirror.cdn-fast.io</span>
-                <span class="copy-link" onclick="copy('url')">COPY</span>
+        <div class="info-group">
+            <div class="info-title"><span>SUPPORT CHANNEL / 联系与申诉</span></div>
+            <div class="info-content">
+                <span class="text-val" id="email">noc@fast-cdn.sh</span>
+                <span class="btn-copy" onclick="copy('email')">COPY</span>
             </div>
         </div>
 
-        <!-- 4. 备用邮箱与复制 -->
-        <div>
-            <span style="font-size: 10px; color: #475569; margin-bottom: 8px; display: block;">TECHNICAL SUPPORT / 紧急联络</span>
-            <div class="info-row">
-                <span class="info-content" id="email">noc@cdn-service.com</span>
-                <span class="copy-link" onclick="copy('email')">COPY</span>
-            </div>
-        </div>
-
-        <!-- 底部版本与模拟 ID -->
-        <div style="margin-top: 25px; display: flex; justify-content: space-between; font-size: 9px; color: #334155;">
-            <span>ID: 0xFD-7742</span>
-            <span>PROTECTED BY SSL-AES256</span>
+        <div class="footer-metrics">
+            <div>NODES<br><span style="color:#fff">254/ONLINE</span></div>
+            <div>UPTIME<br><span style="color:#fff">99.998%</span></div>
+            <div>LOAD<br><span style="color:#fff">LOW (14%)</span></div>
         </div>
     </div>
 
     <script>
+        // 动态模拟延迟数据
+        setInterval(() => {
+            const ms = Math.floor(Math.random() * 20) + 15;
+            document.getElementById('ping').innerText = `LATENCY: ${ms}ms`;
+        }, 3000);
+
         function copy(id) {
             const text = document.getElementById(id).innerText;
-            const el = document.createElement('textarea');
-            el.value = text;
-            document.body.appendChild(el);
-            el.select();
+            const input = document.createElement('textarea');
+            input.value = text;
+            document.body.appendChild(input);
+            input.select();
             document.execCommand('copy');
-            document.body.removeChild(el);
+            document.body.removeChild(input);
 
             const toast = document.getElementById('toast');
             toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 2000);
+            setTimeout(() => { toast.style.display = 'none'; }, 1500);
         }
     </script>
 </body>
