@@ -1,40 +1,60 @@
-<!-- 防失联核心模块开始 -->
-<div class="anti-lost-section" style="margin-top: 30px;">
-    <h2 style="font-size: 1.1rem; color: #cf222e; margin-bottom: 15px;">⚠️ 防失联指南 / Anti-Lost</h2>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>永久发布页 - 防失联</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .card { background: white; width: 100%; max-width: 400px; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+        h1 { color: #333; font-size: 24px; }
+        .notice { color: red; font-size: 14px; margin-bottom: 20px; font-weight: bold; }
+        
+        /* 按钮样式 */
+        .btn { display: block; background: #007bff; color: white; text-decoration: none; padding: 12px; margin: 10px 0; border-radius: 8px; font-weight: bold; transition: 0.3s; }
+        .btn:hover { background: #0056b3; }
+        .btn-mail { background: #28a745; cursor: pointer; }
+        
+        .info-box { background: #eee; padding: 10px; border-radius: 5px; font-family: monospace; word-break: break-all; margin-top: 20px; font-size: 14px; }
+        .footer { margin-top: 20px; font-size: 12px; color: #888; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>官方永久发布页</h1>
+    <p class="notice">建议截图保存本页，防止失联</p>
+
+    <!-- 请将下面的网址换成你的实际项目地址 -->
+    <a href="https://github.com" class="btn" target="_blank">官方开源仓库</a>
+    <a href="https://t.me" class="btn" target="_blank">Telegram 频道</a>
     
-    <!-- 动态网址卡片 -->
-    <div class="link-card" style="border-left: 4px solid #cf222e;">
-        <svg class="icon" viewBox="0 0 24 24" style="fill: #cf222e;"><path d="M12 2L1 21h22L12 2zm0 3.45l8.27 14.3H3.73L12 5.45zM11 16h2v2h-2zm0-6h2v4h-2z"/></svg>
-        <div class="link-info">
-            <span class="link-title">发布页永久地址</span>
-            <code id="current-url" style="background: #f0f0f0; padding: 2px 5px; border-radius: 4px; font-size: 0.9rem;">loading...</code>
-            <p class="link-desc" style="margin-top: 5px;">建议截图保存，如遇失效请尝试 <b>.com</b> 或 <b>.org</b> 后缀</p>
-        </div>
+    <!-- 邮箱点击自动复制 -->
+    <div class="btn btn-mail" onclick="copyMail()">点击复制联系邮箱</div>
+
+    <div class="info-box">
+        当前访问地址：<br>
+        <span id="url-text">获取中...</span>
     </div>
 
-    <!-- 邮箱卡片 -->
-    <div class="link-card" onclick="copyEmail()" style="cursor: pointer;">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-        <div class="link-info">
-            <span class="link-title">紧急联络邮箱</span>
-            <span class="link-desc" id="email-text">admin@example.com</span>
-            <span id="copy-tip" style="font-size: 0.7rem; color: #0969da; display: none;">(点击已复制)</span>
-        </div>
+    <div class="footer">
+        © <span id="year"></span> 官方发布页
     </div>
 </div>
 
 <script>
-    // 自动显示当前网址，方便用户截图
-    document.getElementById('current-url').innerText = window.location.host + window.location.pathname;
+    // 自动显示当前网址
+    document.getElementById('url-text').innerText = window.location.href;
+    document.getElementById('year').innerText = new Date().getFullYear();
 
-    // 一键复制邮箱功能
-    function copyEmail() {
-        const email = document.getElementById('email-text').innerText;
-        navigator.clipboard.writeText(email).then(() => {
-            const tip = document.getElementById('copy-tip');
-            tip.style.display = 'inline';
-            setTimeout(() => { tip.style.display = 'none'; }, 2000);
+    // 复制邮箱功能
+    function copyMail() {
+        const mail = "admin@example.com"; // 这里改成你的真实邮箱
+        navigator.clipboard.writeText(mail).then(() => {
+            alert("邮箱已复制: " + mail);
         });
     }
 </script>
-<!-- 防失联核心模块结束 -->
+
+</body>
+</html>
