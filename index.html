@@ -3,140 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>官方发布页</title>
+    <title>官方发布页 | 永久导航</title>
     <style>
-        /* 核心样式：确保纯本地也能看 */
+        /* 全局样式 */
+        * { box-sizing: border-box; transition: all 0.3s ease; }
         body {
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: #121212;
-            color: #ffffff;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            justify-content: center; /* 水平居中 */
+            align-items: center;     /* 垂直居中 */
+            overflow: hidden;
+            color: #fff;
         }
-        .container {
+
+        /* 磨砂玻璃卡片 */
+        .glass-card {
             width: 90%;
-            max-width: 400px;
-            background: #1e1e1e;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            padding: 40px 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             text-align: center;
         }
-        h1 { font-size: 24px; margin-bottom: 20px; }
-        
-        /* 1. 主跳转按钮 */
+
+        /* 标题装饰 */
+        .logo-circle {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 20px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        h1 { margin: 0; font-size: 24px; font-weight: 600; letter-spacing: 1px; }
+        .subtitle { color: rgba(255,255,255,0.5); font-size: 13px; margin-top: 8px; margin-bottom: 35px; }
+
+        /* 主跳转按钮 */
         .main-btn {
             display: block;
-            background: #007aff;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #3b82f6, #2563eb);
             color: white;
             text-decoration: none;
-            padding: 15px;
-            border-radius: 12px;
+            border-radius: 16px;
             font-weight: bold;
             font-size: 18px;
-            margin-bottom: 30px;
-            transition: 0.3s;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
         }
-        .main-btn:active { transform: scale(0.95); background: #0056b3; }
+        .main-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(37, 99, 235, 0.5); }
+        .main-btn:active { transform: scale(0.97); }
 
-        /* 2. 备用信息区域 */
-        .info-box {
-            background: #2c2c2c;
+        /* 信息条目 */
+        .info-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
             padding: 15px;
-            border-radius: 12px;
             margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             text-align: left;
         }
-        .label { font-size: 12px; color: #888; margin-bottom: 8px; display: block; }
-        .content-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .text-value {
-            font-family: monospace;
-            font-size: 14px;
-            color: #4da3ff;
-            word-break: break-all;
-            margin-right: 10px;
-        }
-        .copy-btn {
-            background: #444;
-            color: #eee;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 6px;
+        .info-header { font-size: 11px; color: #94a3b8; font-weight: bold; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .info-body { display: flex; justify-content: space-between; align-items: center; }
+        .info-text { font-family: 'Consolas', monospace; font-size: 14px; color: #cbd5e1; overflow: hidden; text-overflow: ellipsis; }
+        
+        /* 复制按钮样式 */
+        .copy-action {
+            color: #3b82f6;
             cursor: pointer;
-            font-size: 12px;
-            white-space: nowrap;
+            font-size: 13px;
+            font-weight: bold;
+            padding-left: 10px;
+            flex-shrink: 0;
         }
-        .copy-btn:active { background: #666; }
+        .copy-action:hover { color: #60a5fa; }
 
-        /* 提示弹窗 */
+        /* 成功提示 */
         #toast {
             position: fixed;
-            bottom: 20px;
-            background: rgba(0,0,0,0.8);
-            padding: 10px 20px;
-            border-radius: 20px;
-            display: none;
+            top: 20px;
+            background: #10b981;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 14px;
+            opacity: 0;
+            transition: 0.4s;
+            pointer-events: none;
+            box-shadow: 0 10px 15px rgba(16, 185, 129, 0.2);
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>官方导航中心</h1>
+    <div id="toast">复制成功</div>
 
-    <!-- 第一个：跳转按钮 -->
-    <a href="https://your-website.com" target="_blank" class="main-btn">
-        🚀 点击进入主站点
-    </a>
+    <div class="glass-card">
+        <div class="logo-circle">🚀</div>
+        <h1>项目发布页</h1>
+        <p class="subtitle">请务必收藏备用地址，防止走丢</p>
 
-    <!-- 第二个：备用地址 -->
-    <div class="info-box">
-        <span class="label">备用访问地址</span>
-        <div class="content-row">
-            <span class="text-value" id="url-text">https://domain.com</span>
-            <button class="copy-btn" onclick="copy('url-text')">复制</button>
+        <!-- 1. 主跳转按钮 -->
+        <a href="https://your-main-site.com" target="_blank" class="main-btn">
+            立即访问官网
+        </a>
+
+        <!-- 2. 备用地址 -->
+        <div class="info-item">
+            <span class="info-header">永久备用地址</span>
+            <div class="info-body">
+                <span class="info-text" id="url">https://mysite.com</span>
+                <span class="copy-action" onclick="copy('url')">复制</span>
+            </div>
         </div>
+
+        <!-- 3. 备用邮箱 -->
+        <div class="info-item">
+            <span class="info-header">联系邮箱 / 申诉</span>
+            <div class="info-body">
+                <span class="info-text" id="email">contact@mysite.com</span>
+                <span class="copy-action" onclick="copy('email')">复制</span>
+            </div>
+        </div>
+
+        <p style="font-size: 10px; color: rgba(255,255,255,0.2); margin-top: 30px;">
+            &copy; 2024 OFFICIAL RELEASE PAGE
+        </p>
     </div>
 
-    <!-- 第三个：备用邮箱 -->
-    <div class="info-box">
-        <span class="label">联系与技术支持</span>
-        <div class="content-row">
-            <span class="text-value" id="email-text">help@domain.com</span>
-            <button class="copy-btn" onclick="copy('email-text')">复制</button>
-        </div>
-    </div>
+    <script>
+        function copy(id) {
+            const text = document.getElementById(id).innerText;
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
 
-    <div id="toast">复制成功！</div>
-</div>
-
-<script>
-    function copy(id) {
-        const text = document.getElementById(id).innerText;
-        // 创建临时输入框实现复制
-        const input = document.createElement('input');
-        input.setAttribute('value', text);
-        document.body.appendChild(input);
-        input.select();
-        document.execCommand('copy');
-        document.body.removeChild(input);
-
-        // 显示提示
-        const toast = document.getElementById('toast');
-        toast.style.display = 'block';
-        setTimeout(() => {
-            toast.style.display = 'none';
-        }, 2000);
-    }
-</script>
-
+            const toast = document.getElementById('toast');
+            toast.style.opacity = '1';
+            toast.style.top = '40px';
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.top = '20px';
+            }, 2000);
+        }
+    </script>
 </body>
 </html>
