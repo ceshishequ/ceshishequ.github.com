@@ -3,77 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>项目发布页 | 官方导航</title>
-    <!-- 引入 Tailwind CSS 快速美化 -->
+    <title>官方发布页 | 永久导航</title>
     <script src="https://tailwindcss.com"></script>
     <style>
-        body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        body { background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%); }
+        .glass-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); }
+        .copy-btn:active { transform: scale(0.9); }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center text-white px-4">
+<body class="min-h-screen text-slate-200 flex flex-col items-center py-12 px-4">
 
-    <div class="max-w-md w-full glass p-8 rounded-3xl shadow-2xl">
-        <!-- 头部 LOGO/标题 -->
-        <div class="text-center mb-8">
-            <div class="inline-block p-3 bg-blue-600 rounded-2xl mb-4 shadow-lg shadow-blue-500/30">
-                <svg xmlns="http://w3.org" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-            </div>
-            <h1 class="text-2xl font-bold tracking-tight">项目官方发布页</h1>
-            <p class="text-gray-400 text-sm mt-2 font-mono uppercase tracking-widest">Official Release</p>
-        </div>
+    <!-- 头部 LOGO -->
+    <div class="text-center mb-10">
+        <h1 class="text-3xl font-extrabold text-white tracking-tight">项目官方发布中心</h1>
+        <p class="text-slate-500 mt-2 text-sm">建议收藏本页，获取永久更新链接</p>
+    </div>
 
-        <!-- 核心信息卡片 -->
-        <div class="space-y-4 mb-8">
-            <!-- 官方域名 -->
-            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-all">
-                <div class="flex items-center">
-                    <span class="text-blue-400 mr-3">🌐</span>
-                    <span class="text-sm text-gray-300">官方域名</span>
-                </div>
-                <a href="https://yourdomain.com" target="_blank" class="text-blue-400 font-medium hover:underline">
-                    ://yourdomain.com
-                </a>
-            </div>
+    <div class="max-w-md w-full space-y-6">
+        
+        <!-- 1. 核心跳转按钮 -->
+        <a href="https://main-site.com" target="_blank" 
+           class="block w-full py-5 bg-blue-600 hover:bg-blue-500 text-white text-center rounded-2xl font-bold text-xl shadow-xl shadow-blue-900/30 transition-all transform hover:-translate-y-1">
+            🚀 进入官方主站
+        </a>
 
-            <!-- 联系邮箱 -->
-            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-all">
-                <div class="flex items-center">
-                    <span class="text-purple-400 mr-3">📧</span>
-                    <span class="text-sm text-gray-300">技术支持</span>
-                </div>
-                <a href="mailto:support@yourdomain.com" class="text-purple-400 font-medium hover:underline">
-                    support@yourdomain.com
-                </a>
+        <!-- 2. 备用地址区域 -->
+        <div class="glass-card rounded-2xl p-5">
+            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-3 pl-1">备用访问地址</label>
+            <div class="flex items-center justify-between bg-black/30 rounded-xl p-3 border border-white/5 group">
+                <code class="text-blue-400 font-mono text-sm truncate mr-2" id="url-text">https://yourdomain.com</code>
+                <button onclick="copyToClipboard('url-text')" 
+                        class="copy-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-white text-xs rounded-lg transition-all shrink-0">
+                    复制网址
+                </button>
             </div>
         </div>
 
-        <!-- 操作按钮 -->
-        <div class="grid grid-cols-1 gap-3">
-            <a href="https://github.com" 
-               class="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-xl font-bold text-center transition-all shadow-lg shadow-blue-900/20">
-                🚀 获取最新版本 (Github)
-            </a>
-            
-            <a href="https://github.com" 
-               class="w-full py-4 bg-white/10 hover:bg-white/20 rounded-xl font-medium text-center transition-all border border-white/10">
-                查看源码开源仓库
-            </a>
+        <!-- 3. 备用邮箱区域 -->
+        <div class="glass-card rounded-2xl p-5">
+            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-3 pl-1">联系与申诉邮箱</label>
+            <div class="flex items-center justify-between bg-black/30 rounded-xl p-3 border border-white/5 group">
+                <code class="text-purple-400 font-mono text-sm truncate mr-2" id="email-text">admin@yourdomain.com</code>
+                <button onclick="copyToClipboard('email-text')" 
+                        class="copy-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-white text-xs rounded-lg transition-all shrink-0">
+                    复制邮箱
+                </button>
+            </div>
         </div>
 
-        <!-- 底部 -->
-        <div class="mt-8 text-center">
-            <p class="text-xs text-gray-500">
-                &copy; 2024 <span class="text-gray-400 font-semibold">YourProject</span>. All Rights Reserved.
-            </p>
-            <div class="mt-2 flex justify-center space-x-2">
-                <span class="px-2 py-0.5 bg-green-500/20 text-green-500 text-[10px] rounded uppercase font-bold">Status: Online</span>
-                <span class="px-2 py-0.5 bg-gray-500/20 text-gray-400 text-[10px] rounded uppercase font-bold">v1.2.4</span>
-            </div>
+        <!-- 友情提示 -->
+        <div class="text-center text-slate-500 text-xs mt-8 space-y-1">
+            <p>由于网络环境复杂，建议保存备用联系方式</p>
+            <p>© 2024 Project Name. All Rights Reserved.</p>
         </div>
     </div>
+
+    <!-- 复制成功的轻提示 (Toast) -->
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 px-6 py-3 bg-green-600 text-white rounded-full shadow-2xl opacity-0 transition-opacity pointer-events-none font-medium">
+        已成功复制到剪贴板
+    </div>
+
+    <script>
+        function copyToClipboard(id) {
+            const text = document.getElementById(id).innerText;
+            const toast = document.getElementById('toast');
+            
+            // 使用现代 API 复制
+            navigator.clipboard.writeText(text).then(() => {
+                // 显示轻提示
+                toast.style.opacity = '1';
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                }, 2000);
+            }).catch(err => {
+                alert('复制失败，请手动选择复制');
+            });
+        }
+    </script>
 
 </body>
 </html>
