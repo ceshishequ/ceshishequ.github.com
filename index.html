@@ -3,174 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CDN 全球分发控制台</title>
+    <title>Global CDN | 全球加速入口</title>
     <style>
         :root {
-            --primary: #00e5ff;
-            --bg-dark: #010409;
-            --font-mono: 'Consolas', 'Monaco', 'Courier New', monospace;
+            --accent: #ffffff;
+            --sub: rgba(255, 255, 255, 0.5);
+            --bg: #050505;
         }
 
-        * { box-sizing: border-box; transition: all 0.3s ease; }
+        * { box-sizing: border-box; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
         
-        body {
-            margin: 0;
-            padding: 0;
-            background: var(--bg-dark);
-            height: 100vh;
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            background-color: var(--bg);
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--accent);
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: var(--font-mono);
-            overflow: hidden;
-            color: #fff;
         }
 
-        /* 1. 背景科技层：网格与粒子感 */
-        body::before {
-            content: "";
-            position: absolute;
-            width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.1) 0%, transparent 80%),
-                linear-gradient(rgba(0, 229, 255, 0.05) 1px, transparent 1px) 0 0 / 40px 40px,
-                linear-gradient(90deg, rgba(0, 229, 255, 0.05) 1px, transparent 1px) 0 0 / 40px 40px;
+        /* 极简流体背景 */
+        .bg-gradient {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 80% 20%, #1a365d 0%, transparent 40%),
+                        radial-gradient(circle at 20% 80%, #2d1a5d 0%, transparent 40%);
+            filter: blur(80px);
             z-index: -1;
+            animation: move 20s infinite alternate;
         }
 
-        /* 2. 四角装饰元素 */
-        .corner { position: fixed; width: 100px; height: 100px; border: 1px solid rgba(0, 229, 255, 0.3); opacity: 0.6; pointer-events: none; }
-        .top-left { top: 20px; left: 20px; border-right: none; border-bottom: none; }
-        .top-right { top: 20px; right: 20px; border-left: none; border-bottom: none; }
-        .bottom-left { bottom: 20px; left: 20px; border-right: none; border-top: none; }
-        .bottom-right { bottom: 20px; right: 20px; border-left: none; border-top: none; }
-
-        /* 3. 两侧纵向数据流装饰 */
-        .side-bar {
-            position: fixed; top: 50%; transform: translateY(-50%);
-            font-size: 10px; color: rgba(0, 229, 255, 0.2);
-            text-transform: uppercase; letter-spacing: 4px;
-            writing-mode: vertical-rl;
-        }
-        .left-bar { left: 40px; }
-        .right-bar { right: 40px; transform: translateY(-50%) rotate(180deg); }
-
-        /* 核心卡片容器 */
-        .main-container {
-            position: relative;
-            z-index: 10;
-            width: 95%;
-            max-width: 520px;
-            background: rgba(13, 17, 23, 0.9);
-            border: 1px solid var(--primary);
-            padding: 40px;
-            box-shadow: 0 0 40px rgba(0, 229, 255, 0.15);
-            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+        @keyframes move {
+            from { transform: scale(1); }
+            to { transform: scale(1.2); }
         }
 
-        /* 头部状态 */
-        .header { border-bottom: 1px solid rgba(0, 229, 255, 0.2); margin-bottom: 30px; padding-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end; }
-        h1 { margin: 0; font-size: 22px; color: var(--primary); text-shadow: 0 0 10px var(--primary); }
-        .pulse { width: 10px; height: 10px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 10px #00ff88; animation: blink 1.5s infinite; }
-
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-        /* 跳转大按钮 */
-        .btn-connect {
-            display: block; width: 100%; padding: 20px; margin-bottom: 30px;
-            background: var(--primary); color: #000;
-            text-decoration: none; text-align: center; font-weight: 900; font-size: 18px;
-            clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
+        .wrapper {
+            width: 90%;
+            max-width: 1000px;
+            text-align: center;
         }
-        .btn-connect:hover { background: #fff; box-shadow: 0 0 20px #fff; transform: skewX(-2deg); }
 
-        /* 信息展示块 */
-        .info-group { margin-bottom: 20px; }
-        .info-title { font-size: 11px; color: #57606a; margin-bottom: 8px; display: flex; justify-content: space-between; }
-        .info-content { 
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); 
-            padding: 15px; display: flex; justify-content: space-between; align-items: center;
+        /* 大气排版 */
+        .hero-text {
+            font-size: clamp(40px, 8vw, 80px);
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            line-height: 1;
+            background: linear-gradient(to bottom, #fff 40%, rgba(255,255,255,0.4));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .text-val { color: #e6edf3; font-size: 14px; }
-        .btn-copy { color: var(--primary); cursor: pointer; font-size: 12px; font-weight: bold; border: 1px solid var(--primary); padding: 2px 8px; }
-        .btn-copy:hover { background: var(--primary); color: #000; }
 
-        /* 底部系统信息占位 */
-        .footer-metrics { display: grid; grid-template-cols: repeat(3, 1fr); gap: 10px; margin-top: 30px; font-size: 10px; color: #57606a; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; }
+        .hero-sub {
+            font-size: 18px;
+            color: var(--sub);
+            margin-bottom: 60px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
 
-        #toast { position: fixed; top: 30px; background: #00ff88; color: #000; padding: 10px 30px; font-weight: bold; display: none; z-index: 100; }
+        /* 核心行动区：超大按钮 */
+        .main-link {
+            display: inline-block;
+            padding: 24px 80px;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 700;
+            border-radius: 100px;
+            margin-bottom: 80px;
+            box-shadow: 0 20px 40px rgba(255,255,255,0.1);
+        }
+
+        .main-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(255,255,255,0.2);
+            padding: 24px 100px;
+        }
+
+        /* 信息网格 */
+        .info-grid {
+            display: grid;
+            grid-template-cols: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 60px;
+        }
+
+        .info-card {
+            text-align: left;
+            padding: 20px;
+        }
+
+        .card-label {
+            font-size: 12px;
+            color: var(--sub);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .card-value {
+            font-size: 20px;
+            font-family: "Monaco", monospace;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 6px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .copy-btn:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* 吐司提示 */
+        #toast {
+            position: fixed;
+            bottom: 40px;
+            background: #fff;
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-weight: bold;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn { from { transform: translateY(100px); } to { transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <!-- 复制提示 -->
-    <div id="toast">复制成功 // SUCCESS</div>
+    <div class="bg-gradient"></div>
+    <div id="toast">COPIED TO CLIPBOARD</div>
 
-    <!-- 侧边装饰文本 -->
-    <div class="side-bar left-bar">Traffic Routing Node: Global-Edge-01</div>
-    <div class="side-bar right-bar">Encrypted CDN Protocol v2.4.0</div>
+    <div class="wrapper">
+        <div class="hero-sub">Secure Delivery Network</div>
+        <h1 class="hero-text">Next-Gen<br>CDN Protocol</h1>
+        
+        <a href="https://your-main-site.com" class="main-link">ENTER TERMINAL</a>
 
-    <!-- 四角装饰 -->
-    <div class="corner top-left"></div>
-    <div class="corner top-right"></div>
-    <div class="corner bottom-left"></div>
-    <div class="corner bottom-right"></div>
-
-    <div class="main-container">
-        <div class="header">
-            <div>
-                <h1 id="title">CDN CONTROL CENTER</h1>
-                <small style="color: #57606a;">SYSTEM STATUS: ENCRYPTED</small>
+        <div class="info-grid">
+            <!-- 备用地址 -->
+            <div class="info-card">
+                <span class="card-label">Secondary Node / 备用节点</span>
+                <div class="card-value">
+                    <span id="url">global.cdn-backup.io</span>
+                    <button class="copy-btn" onclick="copy('url')">COPY</button>
+                </div>
             </div>
-            <div class="pulse"></div>
-        </div>
 
-        <a href="https://your-site.com" target="_blank" class="btn-connect">
-            ESTABLISH CONNECTION / 进入
-        </a>
-
-        <div class="info-group">
-            <div class="info-title"><span>MIRROR ADDRESS / 备用节点</span> <span id="ping" style="color:#00ff88">LATENCY: 24ms</span></div>
-            <div class="info-content">
-                <span class="text-val" id="url">cloud.bak-node.io</span>
-                <span class="btn-copy" onclick="copy('url')">COPY</span>
+            <!-- 邮箱信息 -->
+            <div class="info-card">
+                <span class="card-label">Support Email / 联络信道</span>
+                <div class="card-value">
+                    <span id="email">support@network.sh</span>
+                    <button class="copy-btn" onclick="copy('email')">COPY</button>
+                </div>
             </div>
         </div>
 
-        <div class="info-group">
-            <div class="info-title"><span>SUPPORT CHANNEL / 联系与申诉</span></div>
-            <div class="info-content">
-                <span class="text-val" id="email">noc@fast-cdn.sh</span>
-                <span class="btn-copy" onclick="copy('email')">COPY</span>
-            </div>
-        </div>
-
-        <div class="footer-metrics">
-            <div>NODES<br><span style="color:#fff">254/ONLINE</span></div>
-            <div>UPTIME<br><span style="color:#fff">99.998%</span></div>
-            <div>LOAD<br><span style="color:#fff">LOW (14%)</span></div>
+        <div style="margin-top: 60px; font-size: 12px; color: rgba(255,255,255,0.2); letter-spacing: 2px;">
+            STABLE CONNECTED // LATENCY < 10MS // NODE: HKG-01
         </div>
     </div>
 
     <script>
-        // 动态模拟延迟数据
-        setInterval(() => {
-            const ms = Math.floor(Math.random() * 20) + 15;
-            document.getElementById('ping').innerText = `LATENCY: ${ms}ms`;
-        }, 3000);
-
         function copy(id) {
             const text = document.getElementById(id).innerText;
-            const input = document.createElement('textarea');
-            input.value = text;
-            document.body.appendChild(input);
-            input.select();
-            document.execCommand('copy');
-            document.body.removeChild(input);
-
-            const toast = document.getElementById('toast');
-            toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 1500);
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById('toast');
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 2000);
+            });
         }
     </script>
 </body>
