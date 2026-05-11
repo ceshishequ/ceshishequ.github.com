@@ -3,166 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>官方发布页 | 永久导航</title>
+    <title>系统访问终端 | 科技版</title>
     <style>
-        /* 全局样式 */
-        * { box-sizing: border-box; transition: all 0.3s ease; }
+        /* 科技感全局设定 */
+        * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        
         body {
             margin: 0;
             padding: 0;
-            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            background: #000 url('https://unsplash.com') center/cover no-repeat fixed;
             height: 100vh;
             display: flex;
-            justify-content: center; /* 水平居中 */
-            align-items: center;     /* 垂直居中 */
-            overflow: hidden;
-            color: #fff;
-        }
-
-        /* 磨砂玻璃卡片 */
-        .glass-card {
-            width: 90%;
-            max-width: 420px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 28px;
-            padding: 40px 30px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            text-align: center;
-        }
-
-        /* 标题装饰 */
-        .logo-circle {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            border-radius: 20px;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 32px;
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+            align-items: center;
+            font-family: 'Segoe UI', 'Orbitron', sans-serif;
+            overflow: hidden;
         }
 
-        h1 { margin: 0; font-size: 24px; font-weight: 600; letter-spacing: 1px; }
-        .subtitle { color: rgba(255,255,255,0.5); font-size: 13px; margin-top: 8px; margin-bottom: 35px; }
+        /* 背景遮罩，增加深度感 */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle, rgba(0,20,40,0.4) 0%, rgba(0,0,0,0.8) 100%);
+            z-index: 0;
+        }
 
-        /* 主跳转按钮 */
+        /* 核心科技卡片 */
+        .terminal-box {
+            position: relative;
+            z-index: 1;
+            width: 90%;
+            max-width: 450px;
+            background: rgba(10, 25, 41, 0.7);
+            backdrop-filter: blur(20px);
+            border: 2px solid #00f2ff;
+            border-radius: 4px; /* 硬朗线条更具科技感 */
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2), inset 0 0 20px rgba(0, 242, 255, 0.1);
+            clip-path: polygon(0 0, 90% 0, 100% 10%, 100% 100%, 10% 100%, 0 90%); /* 切角设计 */
+        }
+
+        /* 扫描线动画 */
+        .terminal-box::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: rgba(0, 242, 255, 0.5);
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+
+        /* 标题样式 */
+        h1 {
+            color: #00f2ff;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 26px;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.8);
+        }
+
+        .status-bar {
+            font-size: 10px;
+            color: #00f2ff;
+            margin-bottom: 30px;
+            opacity: 0.7;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* 霓虹按钮 */
         .main-btn {
             display: block;
             width: 100%;
-            padding: 16px;
-            background: linear-gradient(90deg, #3b82f6, #2563eb);
-            color: white;
+            padding: 18px;
+            background: transparent;
+            color: #00f2ff;
             text-decoration: none;
-            border-radius: 16px;
+            border: 1px solid #00f2ff;
             font-weight: bold;
-            font-size: 18px;
+            text-align: center;
             margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            position: relative;
+            overflow: hidden;
         }
-        .main-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(37, 99, 235, 0.5); }
-        .main-btn:active { transform: scale(0.97); }
 
-        /* 信息条目 */
-        .info-item {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 16px;
-            padding: 15px;
+        .main-btn:hover {
+            background: rgba(0, 242, 255, 0.15);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.6);
+            transform: scale(1.02);
+        }
+
+        /* 数据条目 */
+        .data-row {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid #00f2ff;
+            padding: 12px 15px;
             margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .info-header { font-size: 11px; color: #94a3b8; font-weight: bold; text-transform: uppercase; margin-bottom: 8px; display: block; }
-        .info-body { display: flex; justify-content: space-between; align-items: center; }
-        .info-text { font-family: 'Consolas', monospace; font-size: 14px; color: #cbd5e1; overflow: hidden; text-overflow: ellipsis; }
-        
-        /* 复制按钮样式 */
-        .copy-action {
-            color: #3b82f6;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: bold;
-            padding-left: 10px;
-            flex-shrink: 0;
-        }
-        .copy-action:hover { color: #60a5fa; }
 
-        /* 成功提示 */
+        .label { font-size: 10px; color: #55aaff; text-transform: uppercase; display: block; margin-bottom: 4px; }
+        .value { font-family: 'Courier New', Courier, monospace; color: #fff; font-size: 14px; }
+        
+        .copy-trigger {
+            font-size: 12px;
+            color: #00f2ff;
+            cursor: pointer;
+            border: 1px solid #00f2ff;
+            padding: 2px 8px;
+            border-radius: 2px;
+        }
+
+        .copy-trigger:hover { background: #00f2ff; color: #000; }
+
+        /* 弹窗提示 */
         #toast {
             position: fixed;
-            top: 20px;
-            background: #10b981;
-            color: white;
-            padding: 10px 25px;
-            border-radius: 50px;
+            bottom: 30px;
+            background: #00f2ff;
+            color: #000;
+            padding: 8px 20px;
+            font-weight: bold;
             font-size: 14px;
-            opacity: 0;
-            transition: 0.4s;
-            pointer-events: none;
-            box-shadow: 0 10px 15px rgba(16, 185, 129, 0.2);
+            display: none;
+            z-index: 10;
         }
     </style>
 </head>
 <body>
 
-    <div id="toast">复制成功</div>
+    <div id="toast">SYSTEM: DATA COPIED</div>
 
-    <div class="glass-card">
-        <div class="logo-circle">🚀</div>
-        <h1>项目发布页</h1>
-        <p class="subtitle">请务必收藏备用地址，防止走丢</p>
+    <div class="terminal-box">
+        <div class="status-bar">
+            <span>● SYSTEM ONLINE</span>
+            <span>● ENCRYPTED</span>
+        </div>
+        
+        <div style="text-align:center; margin-bottom: 40px;">
+            <h1>核心接入终端</h1>
+        </div>
 
-        <!-- 1. 主跳转按钮 -->
+        <!-- 1. 核心跳转 -->
         <a href="https://your-main-site.com" target="_blank" class="main-btn">
-            立即访问官网
+            [ 执行初始化连接 ]
         </a>
 
         <!-- 2. 备用地址 -->
-        <div class="info-item">
-            <span class="info-header">永久备用地址</span>
-            <div class="info-body">
-                <span class="info-text" id="url">https://mysite.com</span>
-                <span class="copy-action" onclick="copy('url')">复制</span>
+        <div>
+            <span class="label">Primary Mirror / 备用节点</span>
+            <div class="data-row">
+                <span class="value" id="url">bak.yournetwork.io</span>
+                <span class="copy-action copy-trigger" onclick="copy('url')">COPY</span>
             </div>
         </div>
 
         <!-- 3. 备用邮箱 -->
-        <div class="info-item">
-            <span class="info-header">联系邮箱 / 申诉</span>
-            <div class="info-body">
-                <span class="info-text" id="email">contact@mysite.com</span>
-                <span class="copy-action" onclick="copy('email')">复制</span>
+        <div>
+            <span class="label">Support Channel / 通讯密钥</span>
+            <div class="data-row">
+                <span class="value" id="email">core@protocol.sh</span>
+                <span class="copy-action copy-trigger" onclick="copy('email')">COPY</span>
             </div>
         </div>
 
-        <p style="font-size: 10px; color: rgba(255,255,255,0.2); margin-top: 30px;">
-            &copy; 2024 OFFICIAL RELEASE PAGE
-        </p>
+        <div style="margin-top:30px; text-align: center; font-size: 9px; color: #336688; letter-spacing: 2px;">
+            VER: 2.0.4 // SESSION: 0x88492AF
+        </div>
     </div>
 
     <script>
         function copy(id) {
             const text = document.getElementById(id).innerText;
-            const tempInput = document.createElement('textarea');
-            tempInput.value = text;
-            document.body.appendChild(tempInput);
-            tempInput.select();
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
             document.execCommand('copy');
-            document.body.removeChild(tempInput);
+            document.body.removeChild(el);
 
             const toast = document.getElementById('toast');
-            toast.style.opacity = '1';
-            toast.style.top = '40px';
-            
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.top = '20px';
-            }, 2000);
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 1500);
         }
     </script>
 </body>
