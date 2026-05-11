@@ -3,112 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>项目发布页 | 线路监控</title>
+    <title>项目发布页 | 官方导航</title>
+    <!-- 引入 Tailwind CSS 快速美化 -->
     <script src="https://tailwindcss.com"></script>
     <style>
-        body { background-color: #0f172a; }
-        .card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
-        .ping-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-        .animate-pulse-slow { animation: pulse 2s infinite; }
+        body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
-<body class="min-h-screen text-slate-200 flex items-center justify-center p-4">
+<body class="min-h-screen flex items-center justify-center text-white px-4">
 
-    <div class="max-w-md w-full card rounded-3xl p-8 shadow-2xl">
-        <!-- 头部 -->
+    <div class="max-w-md w-full glass p-8 rounded-3xl shadow-2xl">
+        <!-- 头部 LOGO/标题 -->
         <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold text-white mb-2">项目官方发布页</h1>
-            <p class="text-slate-400 text-sm">实时线路状态与官方联系方式</p>
+            <div class="inline-block p-3 bg-blue-600 rounded-2xl mb-4 shadow-lg shadow-blue-500/30">
+                <svg xmlns="http://w3.org" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold tracking-tight">项目官方发布页</h1>
+            <p class="text-gray-400 text-sm mt-2 font-mono uppercase tracking-widest">Official Release</p>
         </div>
 
-        <!-- 网址 & 延迟检测区 -->
+        <!-- 核心信息卡片 -->
         <div class="space-y-4 mb-8">
-            <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider ml-1">官方线路</label>
+            <!-- 官方域名 -->
+            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-all">
+                <div class="flex items-center">
+                    <span class="text-blue-400 mr-3">🌐</span>
+                    <span class="text-sm text-gray-300">官方域名</span>
+                </div>
+                <a href="https://yourdomain.com" target="_blank" class="text-blue-400 font-medium hover:underline">
+                    ://yourdomain.com
+                </a>
+            </div>
+
+            <!-- 联系邮箱 -->
+            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-all">
+                <div class="flex items-center">
+                    <span class="text-purple-400 mr-3">📧</span>
+                    <span class="text-sm text-gray-300">技术支持</span>
+                </div>
+                <a href="mailto:support@yourdomain.com" class="text-purple-400 font-medium hover:underline">
+                    support@yourdomain.com
+                </a>
+            </div>
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="grid grid-cols-1 gap-3">
+            <a href="https://github.com" 
+               class="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-xl font-bold text-center transition-all shadow-lg shadow-blue-900/20">
+                🚀 获取最新版本 (Github)
+            </a>
             
-            <!-- 线路 1 -->
-            <div class="flex items-center justify-between p-4 bg-slate-800/50 rounded-2xl border border-slate-700 hover:border-blue-500 transition-all group">
-                <div class="flex flex-col">
-                    <span class="text-sm font-medium text-slate-300">主线服务器</span>
-                    <span class="text-xs text-slate-500 font-mono" id="url-text">://your-domain.com</span>
-                </div>
-                <div class="text-right">
-                    <div class="flex items-center justify-end">
-                        <span id="ping-status" class="ping-dot bg-slate-500"></span>
-                        <span id="ping-value" class="text-sm font-mono text-slate-400">检测中...</span>
-                    </div>
-                    <a href="https://://your-domain.com" target="_blank" class="text-xs text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity">立即访问 →</a>
-                </div>
-            </div>
+            <a href="https://github.com" 
+               class="w-full py-4 bg-white/10 hover:bg-white/20 rounded-xl font-medium text-center transition-all border border-white/10">
+                查看源码开源仓库
+            </a>
         </div>
-
-        <!-- 联系信息区 -->
-        <div class="space-y-4 mb-8 text-sm">
-            <div class="flex items-center p-4 bg-slate-800/30 rounded-xl">
-                <span class="mr-3 text-lg">📧</span>
-                <div class="flex flex-col">
-                    <span class="text-xs text-slate-500">官方邮箱</span>
-                    <a href="mailto:support@example.com" class="text-slate-200 hover:text-blue-400 transition-colors">support@example.com</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- GitHub 发布按钮 -->
-        <a href="https://github.com" class="block w-full py-4 bg-blue-600 hover:bg-blue-500 text-white text-center rounded-2xl font-bold transition-all shadow-lg shadow-blue-900/40">
-            下载最新稳定版
-        </a>
 
         <!-- 底部 -->
-        <p class="mt-8 text-center text-[10px] text-slate-600 uppercase tracking-tighter">
-            &copy; 2024 YourProject • 节点数据每 10 秒刷新
-        </p>
+        <div class="mt-8 text-center">
+            <p class="text-xs text-gray-500">
+                &copy; 2024 <span class="text-gray-400 font-semibold">YourProject</span>. All Rights Reserved.
+            </p>
+            <div class="mt-2 flex justify-center space-x-2">
+                <span class="px-2 py-0.5 bg-green-500/20 text-green-500 text-[10px] rounded uppercase font-bold">Status: Online</span>
+                <span class="px-2 py-0.5 bg-gray-500/20 text-gray-400 text-[10px] rounded uppercase font-bold">v1.2.4</span>
+            </div>
+        </div>
     </div>
-
-    <script>
-        // 配置你的目标网址（必须支持跨域或图片请求）
-        const targetUrl = "https://google.com"; // 建议换成你自己域名的 favicon
-        const pingValueEl = document.getElementById('ping-value');
-        const pingStatusEl = document.getElementById('ping-status');
-
-        function checkPing() {
-            const start = new Date().getTime();
-            const img = new Image();
-            
-            img.onload = function() {
-                const latency = new Date().getTime() - start;
-                updateUI(latency);
-            };
-            
-            img.onerror = function() {
-                // 如果图片加载失败，可能是域名无法访问或跨域限制
-                // 但依然能通过时间差估算延迟
-                const latency = new Date().getTime() - start;
-                updateUI(latency);
-            };
-
-            img.src = targetUrl + "?t=" + start; // 加时间戳防止缓存
-        }
-
-        function updateUI(ms) {
-            pingValueEl.innerText = ms + " ms";
-            pingStatusEl.classList.remove('bg-slate-500', 'bg-green-500', 'bg-yellow-500', 'bg-red-500');
-            
-            if (ms < 150) {
-                pingStatusEl.classList.add('bg-green-500');
-                pingValueEl.className = "text-sm font-mono text-green-400";
-            } else if (ms < 400) {
-                pingStatusEl.classList.add('bg-yellow-500');
-                pingValueEl.className = "text-sm font-mono text-yellow-400";
-            } else {
-                pingStatusEl.classList.add('bg-red-500');
-                pingValueEl.className = "text-sm font-mono text-red-400";
-            }
-        }
-
-        // 初始检测和定时循环
-        checkPing();
-        setInterval(checkPing, 10000);
-    </script>
 
 </body>
 </html>
