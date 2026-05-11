@@ -1,1 +1,40 @@
+<!-- 防失联核心模块开始 -->
+<div class="anti-lost-section" style="margin-top: 30px;">
+    <h2 style="font-size: 1.1rem; color: #cf222e; margin-bottom: 15px;">⚠️ 防失联指南 / Anti-Lost</h2>
+    
+    <!-- 动态网址卡片 -->
+    <div class="link-card" style="border-left: 4px solid #cf222e;">
+        <svg class="icon" viewBox="0 0 24 24" style="fill: #cf222e;"><path d="M12 2L1 21h22L12 2zm0 3.45l8.27 14.3H3.73L12 5.45zM11 16h2v2h-2zm0-6h2v4h-2z"/></svg>
+        <div class="link-info">
+            <span class="link-title">发布页永久地址</span>
+            <code id="current-url" style="background: #f0f0f0; padding: 2px 5px; border-radius: 4px; font-size: 0.9rem;">loading...</code>
+            <p class="link-desc" style="margin-top: 5px;">建议截图保存，如遇失效请尝试 <b>.com</b> 或 <b>.org</b> 后缀</p>
+        </div>
+    </div>
 
+    <!-- 邮箱卡片 -->
+    <div class="link-card" onclick="copyEmail()" style="cursor: pointer;">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        <div class="link-info">
+            <span class="link-title">紧急联络邮箱</span>
+            <span class="link-desc" id="email-text">admin@example.com</span>
+            <span id="copy-tip" style="font-size: 0.7rem; color: #0969da; display: none;">(点击已复制)</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 自动显示当前网址，方便用户截图
+    document.getElementById('current-url').innerText = window.location.host + window.location.pathname;
+
+    // 一键复制邮箱功能
+    function copyEmail() {
+        const email = document.getElementById('email-text').innerText;
+        navigator.clipboard.writeText(email).then(() => {
+            const tip = document.getElementById('copy-tip');
+            tip.style.display = 'inline';
+            setTimeout(() => { tip.style.display = 'none'; }, 2000);
+        });
+    }
+</script>
+<!-- 防失联核心模块结束 -->
